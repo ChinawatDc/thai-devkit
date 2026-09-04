@@ -1,17 +1,19 @@
+import { formatThaiPhone, isValidThaiPhone, maskThaiPhone, getThaiPhoneCarrier } from "@chinawatdc/thai-phone-formatter";
+import { validateThaiID, maskThaiID } from "@chinawatdc/thai-id-validator";
 import { getAllBanks, getBankInfo, validateBankAccount, formatBankAccount } from "@chinawatdc/thai-bank-utils";
 import { useState, useEffect, useRef } from 'react'
 import { BrowserRouter, Routes, Route, Link, useLocation } from 'react-router-dom'
 
 // --- Imports ---
 import { timeAgo, timeUntil } from '@chinawatdc/tiny-time-ago'
-import { validateThaiID } from '@chinawatdc/thai-id-validator'
+
 import { validateEnv, types } from '@chinawatdc/env-type-checker'
 import { ThaiBahtText } from '@chinawatdc/thai-baht-text-esm'
 import { parseLLMOutput } from '@chinawatdc/unified-llm-parser'
 import { PromptManager } from '@chinawatdc/ai-prompt-manager'
 import { tinyFetch } from '@chinawatdc/tiny-fetch-wrapper'
 
-import { formatThaiPhone, isValidThaiPhone } from '@chinawatdc/thai-phone-formatter'
+
 
 import { generatePayload, generatePromptPaySVG } from '@chinawatdc/tiny-promptpay-qr'
 import { estimateCost } from '@chinawatdc/llm-cost-estimator'
@@ -98,11 +100,52 @@ function ThaiIdValidator() {
   const thaiIdResult = validateThaiID(thaiIdInput)
 
   return (
-    <div className="bg-white p-8 rounded-xl shadow-lg w-full max-w-2xl mx-auto">
-      <h2 className="text-2xl font-semibold mb-4">thai-id-validator</h2>
-      <input className="border p-2 w-full rounded mb-2" value={thaiIdInput} onChange={e => setThaiIdInput(e.target.value)} maxLength={13} />
-      <div className="p-4 bg-gray-50 rounded-lg font-bold">
-        {thaiIdResult.isValid ? <span className="text-green-600">Valid ✓</span> : <span className="text-red-600">Invalid ✗ - {thaiIdResult.errorMessage}</span>}
+    <div className="bg-white p-8 rounded-xl shadow-lg w-full max-w-4xl mx-auto">
+      <h2 className="text-2xl font-semibold mb-2">thai-id-validator <span className="text-sm bg-purple-100 text-purple-700 px-2 py-1 rounded">PDPA Masking</span></h2>
+      <p className="text-sm text-gray-500 mb-6">เช็กบัตรประชาชน (จังหวัด, ประเภทบุคคล) พร้อมระบบเซ็นเซอร์ข้อมูลส่วนตัวตามกฎหมาย PDPA</p>
+      
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div>
+          <label className="block text-sm font-bold text-gray-700 mb-1">เลขบัตรประจำตัวประชาชน</label>
+          <input 
+            className="border-2 border-gray-200 focus:border-blue-500 p-3 w-full rounded-lg mb-4 text-lg font-mono tracking-widest" 
+            value={thaiIdInput} 
+            onChange={e => setThaiIdInput(e.target.value)} 
+            maxLength={17} // allows formatting dashes
+          />
+          <div className={`p-4 rounded-lg font-bold border ${thaiIdResult.isValid ? 'bg-green-50 border-green-200 text-green-700' : 'bg-red-50 border-red-200 text-red-700'}`}>
+            {thaiIdResult.isValid ? (
+              <div>
+                <div className="mb-2">✅ Valid ID</div>
+                <div className="text-sm font-normal">Province: {thaiIdResult.details?.provinceName}</div>
+                <div className="text-sm font-normal">Type: {thaiIdResult.details?.personTypeDescription}</div>
+              </div>
+            ) : (
+              <div>❌ Invalid - {thaiIdResult.errorMessage}</div>
+            )}
+          </div>
+        </div>
+        <div className="bg-gray-50 rounded-xl p-6 border shadow-inner">
+          <label className="block text-sm font-bold text-gray-700 mb-4">รูปแบบการซ่อนข้อมูล (PDPA)</label>
+          <div className="flex flex-col gap-3 font-mono">
+            <div className="flex justify-between items-center bg-white p-3 rounded shadow-sm">
+              <span className="text-xs text-gray-500 w-24">Original:</span>
+              <span className="font-bold">{thaiIdInput}</span>
+            </div>
+            <div className="flex justify-between items-center bg-white p-3 rounded shadow-sm border-l-4 border-blue-500">
+              <span className="text-xs text-gray-500 w-24">Default:</span>
+              <span className="font-bold">{maskThaiID(thaiIdInput, 'default')}</span>
+            </div>
+            <div className="flex justify-between items-center bg-white p-3 rounded shadow-sm border-l-4 border-blue-500">
+              <span className="text-xs text-gray-500 w-24">Hide Last:</span>
+              <span className="font-bold">{maskThaiID(thaiIdInput, 'hide-last')}</span>
+            </div>
+            <div className="flex justify-between items-center bg-white p-3 rounded shadow-sm border-l-4 border-blue-500">
+              <span className="text-xs text-gray-500 w-24">Stars (***):</span>
+              <span className="font-bold">{maskThaiID(thaiIdInput, '***')}</span>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   )
@@ -300,14 +343,58 @@ function CreateCustomStack() {
 
 // --- BATCH 2 COMPONENTS ---
 
+
 function ThaiPhoneFormatterDemo() {
   const [phone, setPhone] = useState('0812345678')
+  
+  const isValid = isValidThaiPhone(phone);
+  const carrier = isValid ? getThaiPhoneCarrier(phone) : 'UNKNOWN';
+
   return (
-    <div className="bg-white p-8 rounded-xl shadow-lg w-full max-w-2xl mx-auto">
-      <h2 className="text-2xl font-semibold mb-4">thai-phone-formatter</h2>
-      <input className="border p-2 w-full mb-4 rounded" value={phone} onChange={e => setPhone(e.target.value)} />
-      <div>Formatted: <strong className="text-xl text-blue-600">{formatThaiPhone(phone)}</strong></div>
-      <div>Valid: <strong>{isValidThaiPhone(phone) ? '✅ Yes' : '❌ No'}</strong></div>
+    <div className="bg-white p-8 rounded-xl shadow-lg w-full max-w-4xl mx-auto">
+      <h2 className="text-2xl font-semibold mb-2">thai-phone-formatter <span className="text-sm bg-purple-100 text-purple-700 px-2 py-1 rounded">PDPA + Carrier</span></h2>
+      <p className="text-sm text-gray-500 mb-6">จัดรูปแบบเบอร์โทร ทายเครือข่ายมือถือ (Carrier) และระบบเซ็นเซอร์ข้อมูลส่วนตัวเบอร์โทร</p>
+      
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div>
+          <label className="block text-sm font-bold text-gray-700 mb-1">เบอร์โทรศัพท์</label>
+          <input 
+            className="border-2 border-gray-200 focus:border-blue-500 p-3 w-full mb-4 rounded-lg text-lg font-mono tracking-wider" 
+            value={phone} 
+            onChange={e => setPhone(e.target.value)} 
+          />
+          <div className="grid grid-cols-2 gap-4">
+             <div className="p-4 bg-gray-50 rounded-lg text-center border">
+               <div className="text-xs text-gray-500 uppercase font-bold mb-1">Status</div>
+               <div className="font-bold">{isValid ? '✅ VALID' : '❌ INVALID'}</div>
+             </div>
+             <div className="p-4 bg-blue-50 rounded-lg text-center border border-blue-100">
+               <div className="text-xs text-blue-500 uppercase font-bold mb-1">Network</div>
+               <div className={`font-black text-xl ${carrier==='AIS' ? 'text-green-600' : carrier==='TRUE' ? 'text-red-600' : carrier==='DTAC' ? 'text-blue-500' : 'text-gray-500'}`}>
+                 {carrier}
+               </div>
+             </div>
+          </div>
+        </div>
+        
+        <div className="bg-gray-50 rounded-xl p-6 border shadow-inner">
+          <label className="block text-sm font-bold text-gray-700 mb-4">รูปแบบการซ่อนข้อมูล (PDPA)</label>
+          <div className="flex flex-col gap-3 font-mono">
+            <div className="flex justify-between items-center bg-white p-3 rounded shadow-sm">
+              <span className="text-xs text-gray-500 w-24">Formatted:</span>
+              <span className="font-bold text-blue-600 text-lg">{formatThaiPhone(phone)}</span>
+            </div>
+            <div className="flex justify-between items-center bg-white p-3 rounded shadow-sm border-l-4 border-blue-500">
+              <span className="text-xs text-gray-500 w-24">Default:</span>
+              <span className="font-bold">{maskThaiPhone(phone, 'default')}</span>
+            </div>
+            <div className="flex justify-between items-center bg-white p-3 rounded shadow-sm border-l-4 border-blue-500">
+              <span className="text-xs text-gray-500 w-24">Stars (***):</span>
+              <span className="font-bold">{maskThaiPhone(phone, '***')}</span>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   )
 }
