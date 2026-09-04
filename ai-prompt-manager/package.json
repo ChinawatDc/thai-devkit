@@ -1,0 +1,36 @@
+{
+  "name": "@chinawatdc/ai-prompt-manager",
+  "version": "1.0.1",
+  "main": "./dist/index.js",
+  "scripts": {
+    "build": "tsup src/index.ts --format cjs,esm --dts --clean",
+    "dev": "tsup src/index.ts --format cjs,esm --watch",
+    "test": "echo \"No test yet\""
+  },
+  "keywords": [
+    "prompt",
+    "ai",
+    "manager",
+    "llm",
+    "template",
+    "openai",
+    "chatgpt",
+    "gemini"
+  ],
+  "author": "",
+  "license": "ISC",
+  "description": "ตัวช่วยจัดการ Prompt สำหรับ Node.js ใส่ตัวแปรและจัดการเวอร์ชันได้ง่ายๆ",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    }
+  },
+  "devDependencies": {
+    "tsup": "^8.5.1",
+    "typescript": "^5.4.5"
+  }
+}

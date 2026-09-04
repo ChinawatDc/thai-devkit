@@ -1,0 +1,36 @@
+{
+  "name": "@chinawatdc/tiny-time-ago",
+  "version": "1.0.1",
+  "main": "./dist/index.js",
+  "scripts": {
+    "build": "tsup src/index.ts --format cjs,esm --dts --clean",
+    "dev": "tsup src/index.ts --format cjs,esm --watch",
+    "test": "echo \"No test yet\""
+  },
+  "keywords": [
+    "time",
+    "date",
+    "time-ago",
+    "relative",
+    "tiny",
+    "format",
+    "moment",
+    "date-fns"
+  ],
+  "author": "ChinawatDc",
+  "license": "MIT",
+  "description": "A tiny utility to format date into time-ago string",
+  "devDependencies": {
+    "tsup": "^8.5.1",
+    "typescript": "^5.4.5"
+  },
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    }
+  }
+}

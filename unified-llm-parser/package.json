@@ -1,0 +1,35 @@
+{
+  "name": "@chinawatdc/unified-llm-parser",
+  "version": "1.0.0",
+  "main": "./dist/index.js",
+  "scripts": {
+    "build": "tsup src/index.ts --format cjs,esm --dts --clean"
+  },
+  "keywords": [
+    "llm",
+    "ai",
+    "json",
+    "parser",
+    "extract",
+    "openai",
+    "chatgpt",
+    "gemini",
+    "anthropic"
+  ],
+  "author": "",
+  "license": "ISC",
+  "description": "จัดการผลลัพธ์จาก OpenAI, Gemini, Claude ให้ออกมาเป็นรูปแบบ Object หรือ Zod Schema ที่รับประกันโครงสร้าง",
+  "devDependencies": {
+    "tsup": "^8.5.1",
+    "typescript": "^5.4.5"
+  },
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    }
+  }
+}

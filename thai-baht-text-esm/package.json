@@ -1,0 +1,35 @@
+{
+  "name": "@chinawatdc/thai-baht-text-esm",
+  "version": "1.0.0",
+  "main": "./dist/index.js",
+  "scripts": {
+    "build": "tsup src/index.ts --format cjs,esm --dts --clean"
+  },
+  "keywords": [
+    "thai",
+    "baht",
+    "text",
+    "money",
+    "currency",
+    "thailand",
+    "esm",
+    "บาท",
+    "แปลงเงิน"
+  ],
+  "author": "",
+  "license": "ISC",
+  "description": "แปลงตัวเลขเป็นตัวหนังสือภาษาไทย (เวอร์ชัน ESM, TypeScript 100%, Zero dependencies)",
+  "devDependencies": {
+    "tsup": "^8.5.1",
+    "typescript": "^5.4.5"
+  },
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    }
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "name": "@chinawatdc/thai-id-validator",
+  "version": "1.0.0",
+  "main": "./dist/index.js",
+  "scripts": {
+    "build": "tsup src/index.ts --format cjs,esm --dts --clean"
+  },
+  "keywords": [
+    "thai",
+    "id",
+    "validator",
+    "national-id",
+    "thailand",
+    "citizen",
+    "บัตรประชาชน"
+  ],
+  "author": "",
+  "license": "ISC",
+  "description": "เช็กความถูกต้องของบัตรประชาชนแบบละเอียดว่า เลขหลักแรกหมายถึงอะไร จังหวัดที่ออกบัตรคืออะไร พร้อมคืนค่า Error เป็นภาษาไทย",
+  "devDependencies": {
+    "tsup": "^8.5.1",
+    "typescript": "^5.4.5"
+  },
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    }
+  }
+}

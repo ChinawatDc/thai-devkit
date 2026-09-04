@@ -1,0 +1,41 @@
+{
+  "name": "ui-playground",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "vite"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@chinawatdc/ai-prompt-manager": "^1.0.0",
+    "@chinawatdc/ai-stream-reader": "^1.0.0",
+    "@chinawatdc/create-custom-stack": "^1.0.0",
+    "@chinawatdc/env-type-checker": "^1.0.0",
+    "@chinawatdc/llm-cost-estimator": "^1.0.0",
+    "@chinawatdc/thai-address-suggest": "^1.0.0",
+    "@chinawatdc/thai-baht-text-esm": "^1.0.0",
+    "@chinawatdc/thai-bank-utils": "^1.0.0",
+    "@chinawatdc/thai-id-validator": "^1.0.0",
+    "@chinawatdc/thai-nlp-utils": "^1.0.0",
+    "@chinawatdc/thai-phone-formatter": "^1.0.0",
+    "@chinawatdc/tiny-fetch-wrapper": "^1.0.0",
+    "@chinawatdc/tiny-jwt-decoder": "^1.0.0",
+    "@chinawatdc/tiny-promptpay-qr": "^1.0.0",
+    "@chinawatdc/tiny-time-ago": "^1.0.0",
+    "@chinawatdc/unified-llm-parser": "^1.0.0",
+    "@chinawatdc/use-click-outside-esm": "^1.0.0",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "react-router-dom": "^7.18.3"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.3.3",
+    "@vitejs/plugin-react": "^6.1.1",
+    "tailwindcss": "^4.3.3",
+    "vite": "^8.2.2"
+  }
+}

@@ -1,0 +1,1 @@
+# @chinawatdc/use-click-outside-esm\n\nA lightweight utility library by @chinawatdc.\n\n## Installation\n\n```bash\nnpm install @chinawatdc/use-click-outside-esm\n```\n\n## Usage\nPlease check the source code or UI Playground for usage examples.\n
