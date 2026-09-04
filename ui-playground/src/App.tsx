@@ -375,35 +375,79 @@ function ThaiBankUtilsDemo() {
 function PromptPayQRDemo() {
   const [target, setTarget] = useState('0812345678')
   const [amount, setAmount] = useState('150.50')
-  const [frameText, setFrameText] = useState('Scan to Pay')
+  const [frameText, setFrameText] = useState('THAI QR PAYMENT')
   const [useLogo, setUseLogo] = useState(false)
+  const [isSlip, setIsSlip] = useState(true)
+  const [merchantName, setMerchantName] = useState('บริษัท ตัวอย่าง จำกัด')
   
   const payload = generatePayload(target, parseFloat(amount) || 0)
   const logo = useLogo ? 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cGF0aCBmaWxsPSIjRkZEMzAwIiBkPSJNNTAgMEwyMCAxMDBMMTAwIDQwSDBMODAgMTAwTDUwIDB6Ii8+PC9zdmc+' : undefined;
   
   let svgQr = '';
   try {
-    svgQr = generatePromptPaySVG(target, parseFloat(amount) || 0, { logo, frameText: frameText || undefined });
+    svgQr = generatePromptPaySVG(target, parseFloat(amount) || 0, { 
+      logo, 
+      frameText: frameText || undefined,
+      isSlip,
+      merchantName: isSlip ? merchantName : undefined,
+      infoText: isSlip ? 'โทร: 081-234-5678' : undefined
+    });
   } catch (e) {}
 
   return (
     <div className="bg-white p-8 rounded-xl shadow-lg w-full max-w-4xl mx-auto">
-      <h2 className="text-2xl font-semibold mb-4">tiny-promptpay-qr (Advanced)</h2>
+      <h2 className="text-2xl font-semibold mb-2">tiny-promptpay-qr <span className="text-sm bg-purple-100 text-purple-700 px-2 py-1 rounded">God Tier Slip</span></h2>
+      <p className="text-sm text-gray-500 mb-6">เจนบาร์โค้ดพร้อมป้าย Standee/Slip แบบพรีเมียม สั่งพิมพ์แปะหน้าร้านได้เลย!</p>
+      
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         <div>
           <div className="flex flex-col gap-4 mb-4">
-            <input className="border p-2 w-full rounded" value={target} onChange={e => setTarget(e.target.value)} placeholder="0812345678" />
-            <input className="border p-2 w-full rounded" type="number" value={amount} onChange={e => setAmount(e.target.value)} placeholder="Amount" />
-            <input className="border p-2 w-full rounded" value={frameText} onChange={e => setFrameText(e.target.value)} placeholder="Frame Text" />
-            <label className="flex items-center gap-2 cursor-pointer">
-              <input type="checkbox" checked={useLogo} onChange={e => setUseLogo(e.target.checked)} />
-              <span className="text-sm font-semibold">Add Logo</span>
+            <div>
+              <label className="block text-xs font-bold text-gray-500 uppercase mb-1">เบอร์ / เลขประจำตัว</label>
+              <input className="border-2 border-gray-200 focus:border-blue-500 outline-none p-2 w-full rounded-lg" value={target} onChange={e => setTarget(e.target.value)} placeholder="0812345678" />
+            </div>
+            <div>
+              <label className="block text-xs font-bold text-gray-500 uppercase mb-1">จำนวนเงิน (บาท)</label>
+              <input className="border-2 border-gray-200 focus:border-blue-500 outline-none p-2 w-full rounded-lg" type="number" value={amount} onChange={e => setAmount(e.target.value)} placeholder="Amount" />
+            </div>
+            
+            <label className="flex items-center gap-3 cursor-pointer bg-blue-50 p-3 rounded-lg border border-blue-100 hover:bg-blue-100 transition-colors">
+              <input type="checkbox" className="w-5 h-5 accent-blue-600" checked={isSlip} onChange={e => setIsSlip(e.target.checked)} />
+              <span className="text-sm font-bold text-blue-900">โหมดป้ายชำระเงิน (Slip Mode)</span>
             </label>
+            
+            <div className="flex gap-4">
+              <label className="flex items-center gap-2 cursor-pointer mt-2">
+                <input type="checkbox" checked={useLogo} onChange={e => setUseLogo(e.target.checked)} />
+                <span className="text-sm font-semibold">ใส่โลโก้ตรงกลาง</span>
+              </label>
+            </div>
+            
+            {isSlip ? (
+              <div className="animate-fade-in">
+                <label className="block text-xs font-bold text-gray-500 uppercase mb-1">ชื่อร้านค้า (Merchant Name)</label>
+                <input className="border-2 border-gray-200 focus:border-blue-500 outline-none p-2 w-full rounded-lg" value={merchantName} onChange={e => setMerchantName(e.target.value)} />
+              </div>
+            ) : (
+              <div>
+                <label className="block text-xs font-bold text-gray-500 uppercase mb-1">ข้อความหัวป้าย</label>
+                <input className="border-2 border-gray-200 focus:border-blue-500 outline-none p-2 w-full rounded-lg" value={frameText} onChange={e => setFrameText(e.target.value)} placeholder="Frame Text" />
+              </div>
+            )}
+            
           </div>
-          <div className="p-4 bg-gray-100 rounded-lg break-all font-mono text-xs">{payload}</div>
+          <div className="p-4 bg-gray-900 text-green-400 rounded-lg break-all font-mono text-xs shadow-inner">
+            <div className="text-gray-500 mb-1">Raw Payload:</div>
+            {payload}
+          </div>
         </div>
-        <div className="flex flex-col items-center justify-center bg-gray-50 rounded-xl p-8 border border-gray-200">
-          {svgQr && <div className="w-64 h-64 max-w-full shadow-md rounded-2xl overflow-hidden bg-white" dangerouslySetInnerHTML={{ __html: svgQr }} />}
+        <div className="flex flex-col items-center justify-center bg-gray-100 rounded-xl p-8 border border-gray-200 overflow-hidden shadow-inner max-h-[600px]">
+          {svgQr && (
+            <div 
+              className={`transition-all duration-300 ${isSlip ? 'w-[300px] hover:scale-105' : 'w-64 h-64 shadow-md rounded-2xl bg-white overflow-hidden'}`} 
+              dangerouslySetInnerHTML={{ __html: svgQr }} 
+            />
+          )}
         </div>
       </div>
     </div>
