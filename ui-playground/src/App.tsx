@@ -1,3 +1,4 @@
+import { getAllBanks, getBankInfo, validateBankAccount, formatBankAccount } from "@chinawatdc/thai-bank-utils";
 import { useState, useEffect, useRef } from 'react'
 import { BrowserRouter, Routes, Route, Link, useLocation } from 'react-router-dom'
 
@@ -8,12 +9,10 @@ import { validateEnv, types } from '@chinawatdc/env-type-checker'
 import { ThaiBahtText } from '@chinawatdc/thai-baht-text-esm'
 import { parseLLMOutput } from '@chinawatdc/unified-llm-parser'
 import { PromptManager } from '@chinawatdc/ai-prompt-manager'
-import { suggestProvince, searchAddress, searchByZipcode } from '@chinawatdc/thai-address-suggest'
-import { cleanThaiText, isThai } from '@chinawatdc/thai-nlp-utils'
 import { tinyFetch } from '@chinawatdc/tiny-fetch-wrapper'
 
 import { formatThaiPhone, isValidThaiPhone } from '@chinawatdc/thai-phone-formatter'
-import { getBankInfo, getAllBanks } from '@chinawatdc/thai-bank-utils'
+
 import { generatePayload, generatePromptPaySVG } from '@chinawatdc/tiny-promptpay-qr'
 import { estimateCost } from '@chinawatdc/llm-cost-estimator'
 import { useClickOutside } from '@chinawatdc/use-click-outside-esm'
@@ -313,23 +312,60 @@ function ThaiPhoneFormatterDemo() {
   )
 }
 
+
+
+
 function ThaiBankUtilsDemo() {
   const banks = getAllBanks();
   const [selected, setSelected] = useState('kbank')
+  const [accountNo, setAccountNo] = useState('')
   const info = getBankInfo(selected)
+
+  // Use the God Tier functions
+  const formatted = info ? formatBankAccount(selected, accountNo) : accountNo;
+  const isValid = info ? validateBankAccount(selected, accountNo) : false;
+
   return (
-    <div className="bg-white p-8 rounded-xl shadow-lg w-full max-w-2xl mx-auto">
-      <h2 className="text-2xl font-semibold mb-4">thai-bank-utils</h2>
-      <div className="flex gap-2 mb-4 flex-wrap">
+    <div className="bg-white p-8 rounded-xl shadow-lg w-full max-w-3xl mx-auto">
+      <h2 className="text-2xl font-semibold mb-2">thai-bank-utils <span className="text-sm bg-purple-100 text-purple-700 px-2 py-1 rounded">God Tier</span></h2>
+      <p className="text-sm text-gray-500 mb-6">ระบบ Format เลขบัญชีอัตโนมัติตามธนาคาร และเช็กความถูกต้อง</p>
+      
+      <div className="flex gap-2 mb-6 flex-wrap">
         {banks.map(b => (
-          <button key={b.code} onClick={() => setSelected(b.code)} className="px-3 py-1 border rounded" style={{ borderColor: b.color, backgroundColor: selected === b.code ? b.color : 'white', color: selected === b.code ? 'white' : b.color }}>
+          <button key={b.code} onClick={() => setSelected(b.code)} className="px-3 py-1 border rounded shadow-sm hover:opacity-80 transition-all text-sm font-bold" style={{ borderColor: b.color, background: selected === b.code ? b.gradient : 'white', color: selected === b.code ? 'white' : b.color }}>
             {b.nameTh}
           </button>
         ))}
       </div>
+      
       {info && (
-        <div className="p-4 rounded-xl text-white font-bold" style={{ backgroundColor: info.color }}>
-          {info.nameEn} ({info.code.toUpperCase()})
+        <div className="p-8 rounded-2xl text-white shadow-2xl relative overflow-hidden" style={{ background: info.gradient }}>
+          {/* Slip Template Mockup */}
+          <div className="absolute top-0 right-0 p-4 opacity-20 text-6xl font-black italic">{info.code.toUpperCase()}</div>
+          <h3 className="text-xl font-bold mb-1">{info.nameEn}</h3>
+          <p className="text-sm opacity-80 mb-6">{info.nameTh}</p>
+          
+          <div className="bg-white/10 p-4 rounded-lg backdrop-blur-sm border border-white/20">
+            <label className="block text-xs uppercase tracking-wider mb-2 opacity-80">Account Number</label>
+            <input 
+              className="w-full bg-transparent border-b-2 border-white/50 focus:border-white outline-none text-2xl font-mono pb-1 placeholder-white/30" 
+              placeholder={info.format}
+              value={accountNo}
+              onChange={e => setAccountNo(e.target.value.replace(/\\D/g, ''))} // Allow only numbers
+              maxLength={15}
+            />
+            
+            <div className="mt-4 flex items-center justify-between">
+              <div className="font-mono text-xl tracking-widest">{formatted || info.format}</div>
+              <div>
+                {accountNo.length > 0 && (
+                  isValid 
+                    ? <span className="bg-green-500 text-white px-2 py-1 rounded text-xs font-bold shadow">✅ รูปแบบถูกต้อง</span>
+                    : <span className="bg-red-500 text-white px-2 py-1 rounded text-xs font-bold shadow">❌ ความยาวไม่ถูกต้อง</span>
+                )}
+              </div>
+            </div>
+          </div>
         </div>
       )}
     </div>
