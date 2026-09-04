@@ -131,24 +131,24 @@ function EnvTypeChecker() {
 }
 
 function UnifiedLlmParser() {
-  const [llmInput, setLlmInput] = useState('Here is the data:\n```json\n{\n  "name": "Chinawat",\n  "skills": ["React", "TypeScript",\n```\n(AI stopped generating here...)')
+  const [llmInput, setLlmInput] = useState('Here is the data:\n```json\n{\n  "name": "Chinawat",\n  "age": "30",\n  "isDeveloper": "true",\n  "skills": ["React", "TypeScript",\n```\n(AI stopped generating here...)')
   
   let llmResult = null;
   let errorMsg = '';
   try { 
-    llmResult = parseLLMOutput(llmInput) 
+    llmResult = parseLLMOutput(llmInput, { autoCoerce: true }) 
   } catch (e: any) { 
     errorMsg = e.message 
   }
 
   return (
     <div className="bg-white p-8 rounded-xl shadow-lg w-full max-w-4xl mx-auto">
-      <h2 className="text-2xl font-semibold mb-2">unified-llm-parser <span className="text-sm bg-purple-100 text-purple-700 px-2 py-1 rounded">Auto-Healing</span></h2>
-      <p className="text-sm text-gray-500 mb-4">ลองป้อน JSON แบบพังๆ (ลืมปิดวงเล็บ, มี markdown ติดมา, ลูกน้ำเกิน) ดูครับ ระบบจะซ่อมให้เอง!</p>
+      <h2 className="text-2xl font-semibold mb-2">unified-llm-parser <span className="text-sm bg-purple-100 text-purple-700 px-2 py-1 rounded">God-Tier Mode</span></h2>
+      <p className="text-sm text-gray-500 mb-4">ลองป้อน JSON แบบพังๆ หรือใส่ Type ผิดๆ (เช่น age เป็น "30" แทนที่จะเป็นเลข) ระบบจะซ่อมและแปลง Type ให้เอง! (รองรับ Zod Schema ด้วย)</p>
       
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
-          <label className="block text-sm font-bold text-gray-700 mb-1">AI Output (Broken JSON)</label>
+          <label className="block text-sm font-bold text-gray-700 mb-1">AI Output (Broken & Bad Types)</label>
           <textarea 
             className="border-2 border-gray-300 focus:border-blue-500 outline-none p-3 w-full h-48 rounded-lg font-mono text-sm shadow-sm" 
             value={llmInput} 
@@ -156,14 +156,14 @@ function UnifiedLlmParser() {
           />
         </div>
         <div>
-          <label className="block text-sm font-bold text-gray-700 mb-1">Parsed & Healed Result</label>
+          <label className="block text-sm font-bold text-gray-700 mb-1">Parsed, Healed & Coerced Result</label>
           <div className="bg-gray-900 text-green-400 p-4 rounded-lg overflow-auto h-48 font-mono text-sm shadow-inner relative">
             {llmResult ? (
               <pre>{JSON.stringify(llmResult, null, 2)}</pre>
             ) : (
               <div className="text-red-400 whitespace-pre-wrap">{errorMsg}</div>
             )}
-            {llmResult && <div className="absolute top-2 right-2 text-xs bg-green-900 text-green-300 px-2 py-1 rounded opacity-70">Valid JSON</div>}
+            {llmResult && <div className="absolute top-2 right-2 text-xs bg-green-900 text-green-300 px-2 py-1 rounded opacity-70">Valid + Type Fixed</div>}
           </div>
         </div>
       </div>
