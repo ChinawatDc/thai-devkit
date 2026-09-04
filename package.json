@@ -1,0 +1,37 @@
+{
+  "name": "thai-devkit-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "ai-prompt-manager",
+    "ai-stream-reader",
+    "create-custom-stack",
+    "env-type-checker",
+    "llm-cost-estimator",
+    "thai-address-suggest",
+    "thai-baht-text-esm",
+    "thai-bank-utils",
+    "thai-id-validator",
+    "thai-nlp-utils",
+    "thai-phone-formatter",
+    "tiny-fetch-wrapper",
+    "tiny-jwt-decoder",
+    "tiny-promptpay-qr",
+    "tiny-time-ago",
+    "unified-llm-parser",
+    "use-click-outside-esm",
+    "ui-playground",
+    "docs"
+  ],
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "lint": "turbo run lint",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+  },
+  "devDependencies": {
+    "prettier": "^3.3.3",
+    "turbo": "^2.1.2"
+  },
+  "packageManager": "npm@10.5.0"
+}

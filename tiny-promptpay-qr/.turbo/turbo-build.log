@@ -1,0 +1,18 @@
+
+> @chinawatdc/tiny-promptpay-qr@1.0.2 build
+> tsup src/index.ts --format cjs,esm --dts --clean
+
+CLI Building entry: src/index.ts
+CLI tsup v8.5.1
+CLI Target: node16
+CLI Cleaning output folder
+CJS Build start
+ESM Build start
+ESM dist/index.mjs 60.88 KB
+ESM ⚡️ Build success in 203ms
+CJS dist/index.js 61.36 KB
+CJS ⚡️ Build success in 206ms
+DTS Build start
+DTS ⚡️ Build success in 3940ms
+DTS dist/index.d.ts  335.00 B
+DTS dist/index.d.mts 335.00 B

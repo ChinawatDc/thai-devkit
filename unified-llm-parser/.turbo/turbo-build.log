@@ -1,0 +1,48 @@
+
+> @chinawatdc/unified-llm-parser@1.0.0 build
+> tsup src/index.ts --format cjs,esm --dts --clean
+
+CLI Building entry: src/index.ts
+CLI tsup v8.5.1
+CLI Target: node16
+CLI Cleaning output folder
+CJS Build start
+ESM Build start
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mSyntax error "`"[0m
+
+    src/index.ts:126:23:
+[37m      126 │       throw new Error(\[32m[37m`Auto-Healing Failed. \\nOriginal error: \...
+          ╵                        [32m^[0m
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mSyntax error "`"[0m
+
+    src/index.ts:126:23:
+[37m      126 │       throw new Error(\[32m[37m`Auto-Healing Failed. \\nOriginal error: \...
+          ╵                        [32m^[0m
+
+CJS Build failed
+ESM Build failed
+Error: Build failed with 1 error:
+src/index.ts:126:23: ERROR: Syntax error "`"
+    at failureErrorWithLog (/home/chinawat_dc/workspace/Chinawatdev/dev/workspace/npm-packages/unified-llm-parser/node_modules/esbuild/lib/main.js:1748:15)
+    at /home/chinawat_dc/workspace/Chinawatdev/dev/workspace/npm-packages/unified-llm-parser/node_modules/esbuild/lib/main.js:1207:25
+    at runOnEndCallbacks (/home/chinawat_dc/workspace/Chinawatdev/dev/workspace/npm-packages/unified-llm-parser/node_modules/esbuild/lib/main.js:1588:45)
+    at buildResponseToResult (/home/chinawat_dc/workspace/Chinawatdev/dev/workspace/npm-packages/unified-llm-parser/node_modules/esbuild/lib/main.js:1205:7)
+    at /home/chinawat_dc/workspace/Chinawatdev/dev/workspace/npm-packages/unified-llm-parser/node_modules/esbuild/lib/main.js:1232:16
+    at responseCallbacks.<computed> (/home/chinawat_dc/workspace/Chinawatdev/dev/workspace/npm-packages/unified-llm-parser/node_modules/esbuild/lib/main.js:884:9)
+    at handleIncomingPacket (/home/chinawat_dc/workspace/Chinawatdev/dev/workspace/npm-packages/unified-llm-parser/node_modules/esbuild/lib/main.js:939:12)
+    at Socket.readFromStdout (/home/chinawat_dc/workspace/Chinawatdev/dev/workspace/npm-packages/unified-llm-parser/node_modules/esbuild/lib/main.js:862:7)
+    at Socket.emit (node:events:524:28)
+    at addChunk (node:internal/streams/readable:561:12)
+DTS Build start
+src/index.ts(126,23): error TS1127: Invalid character.
+src/index.ts(138,1): error TS1160: Unterminated template literal.
+
+DTS Build error
+[1mnpm[22m [31merror[39m Lifecycle script `build` failed with error:
+[1mnpm[22m [31merror[39m [94mcode[39m [33m1[39m
+[1mnpm[22m [31merror[39m [94mpath[39m /home/chinawat_dc/workspace/Chinawatdev/dev/workspace/npm-packages/unified-llm-parser
+[1mnpm[22m [31merror[39m [94mworkspace[39m @chinawatdc/unified-llm-parser@1.0.0
+[1mnpm[22m [31merror[39m [94mlocation[39m /home/chinawat_dc/workspace/Chinawatdev/dev/workspace/npm-packages/unified-llm-parser
+[1mnpm[22m [31merror[39m command failed
+[1mnpm[22m [31merror[39m [94mcommand[39m sh -c tsup src/index.ts --format cjs,esm --dts --clean

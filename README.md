@@ -1,31 +1,43 @@
-# My NPM Packages Workspace 📦
+# 🇹🇭 Thai DevKit (Monorepo)
 
-นี่คือ Workspace สำหรับเก็บและพัฒนา NPM Packages ทั้งหมดที่จะถูก Publish ภายใต้ชื่อ `@chinawatdc`
+A collection of lightweight, zero-dependency, and high-performance utility libraries specifically tailored for Thai developers and AI integrations.
 
-## 🌟 รายการ Packages ทั้งหมดในแผนงาน
+## 📦 Packages
 
-### 1. เครื่องมือสำหรับผู้พัฒนาในไทย (Thai Developer Tools) 🇹🇭
-* 📂 **[thai-address-suggest](./thai-address-suggest)** - ระบบ Auto-complete ข้อมูลที่อยู่ไทยแบบเบาๆ
-* 📂 **[thai-id-validator](./thai-id-validator)** - ตัวตรวจสอบความถูกต้องบัตรประชาชนไทยแบบละเอียด
-* 📂 **[thai-baht-text-esm](./thai-baht-text-esm)** - แปลงตัวเลขเป็นข้อความภาษาไทย (TypeScript 100%)
-* 📂 **[thai-nlp-utils](./thai-nlp-utils)** - ระบบแปลงคำอ่าน ค้นหาคำพ้องเสียง และตัดคำ
+### Utilities
+- `@chinawatdc/thai-phone-formatter`
+- `@chinawatdc/thai-bank-utils`
+- `@chinawatdc/tiny-promptpay-qr`
+- `@chinawatdc/thai-address-suggest`
+- `@chinawatdc/thai-id-validator`
+- `@chinawatdc/thai-baht-text-esm`
+- `@chinawatdc/thai-nlp-utils`
+- `@chinawatdc/use-click-outside-esm`
+- `@chinawatdc/tiny-time-ago`
+- `@chinawatdc/tiny-fetch-wrapper`
+- `@chinawatdc/tiny-jwt-decoder`
+- `@chinawatdc/env-type-checker`
 
-### 2. เครื่องมือเชื่อมต่อกับ AI (AI Wrappers & Utilities) 🤖
-* 📂 **[unified-llm-parser](./unified-llm-parser)** - ตัวจัดการผลลัพธ์จาก AI หลายค่ายให้อยู่ในฟอร์แมตเดียวกัน
-* 📂 **[ai-prompt-manager](./ai-prompt-manager)** - ตัวช่วยสร้างและจัดการ Prompt Template
+### AI & LLM Tools
+- `@chinawatdc/ai-prompt-manager`
+- `@chinawatdc/ai-stream-reader`
+- `@chinawatdc/llm-cost-estimator`
+- `@chinawatdc/unified-llm-parser`
 
-### 3. เครื่องมือแบบ "จิ๋วแต่แจ๋ว" (Micro Utilities) ⚡
-* ✅ 📂 **[tiny-time-ago](./tiny-time-ago)** - ตัวแปลงเวลา (พัฒนาเสร็จแล้ว!)
-* 📂 **[tiny-fetch-wrapper](./tiny-fetch-wrapper)** - ตัวครอบ `fetch` API ให้ใช้งานง่ายพร้อมระบบ Retry
+### CLI Tools
+- `@chinawatdc/create-custom-stack`
 
-### 4. ตัวช่วยจัดการโค้ดและ Developer Experience (DX) 🛠️
-* 📂 **[create-custom-stack](./create-custom-stack)** - CLI Boilerplate สร้างโปรเจกต์สไตล์ตัวคุณเอง
-* 📂 **[env-type-checker](./env-type-checker)** - ระบบตรวจสอบ Environment variables ก่อนรันเซิร์ฟเวอร์
+## 🛠️ Development
 
----
+This project is a Monorepo powered by **Turborepo** and **npm workspaces**.
 
-## 🛠️ วิธีการพัฒนาแพ็กเกจใหม่
-1. เข้าไปในโฟลเดอร์แพ็กเกจเป้าหมาย (เช่น `cd thai-id-validator`)
-2. รันคำสั่ง `npm i -D typescript tsup` เพื่อติดตั้งตัว Build
-3. เขียนโค้ด และเมื่อเสร็จแล้วทดสอบด้วยการรัน `npm link`
-4. รัน `npm publish --access public` เพื่อเผยแพร่ขึ้น npm
+```bash
+# Install dependencies for all packages
+npm install
+
+# Build all packages simultaneously
+npm run build
+```
+
+## 🤝 Contributing
+Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests to us.

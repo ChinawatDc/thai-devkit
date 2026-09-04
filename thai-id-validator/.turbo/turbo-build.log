@@ -1,0 +1,18 @@
+
+> @chinawatdc/thai-id-validator@1.0.0 build
+> tsup src/index.ts --format cjs,esm --dts --clean
+
+CLI Building entry: src/index.ts
+CLI tsup v8.5.1
+CLI Target: node16
+CLI Cleaning output folder
+CJS Build start
+ESM Build start
+CJS dist/index.js 9.89 KB
+CJS ⚡️ Build success in 120ms
+ESM dist/index.mjs 8.91 KB
+ESM ⚡️ Build success in 123ms
+DTS Build start
+DTS ⚡️ Build success in 3106ms
+DTS dist/index.d.ts  528.00 B
+DTS dist/index.d.mts 528.00 B

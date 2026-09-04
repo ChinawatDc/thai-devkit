@@ -1,0 +1,18 @@
+
+> @chinawatdc/thai-baht-text-esm@1.0.0 build
+> tsup src/index.ts --format cjs,esm --dts --clean
+
+CLI Building entry: src/index.ts
+CLI tsup v8.5.1
+CLI Target: node16
+CLI Cleaning output folder
+CJS Build start
+ESM Build start
+ESM dist/index.mjs 2.57 KB
+ESM ⚡️ Build success in 105ms
+CJS dist/index.js 3.55 KB
+CJS ⚡️ Build success in 105ms
+DTS Build start
+DTS ⚡️ Build success in 3254ms
+DTS dist/index.d.ts  278.00 B
+DTS dist/index.d.mts 278.00 B

@@ -1,0 +1,18 @@
+
+> @chinawatdc/thai-bank-utils@1.0.0 build
+> tsup src/index.ts --format cjs,esm --dts --clean
+
+CLI Building entry: src/index.ts
+CLI tsup v8.5.1
+CLI Target: node16
+CLI Cleaning output folder
+CJS Build start
+ESM Build start
+ESM dist/index.mjs 1.38 KB
+ESM ⚡️ Build success in 767ms
+CJS dist/index.js 2.39 KB
+CJS ⚡️ Build success in 776ms
+DTS Build start
+DTS ⚡️ Build success in 4806ms
+DTS dist/index.d.ts  258.00 B
+DTS dist/index.d.mts 258.00 B

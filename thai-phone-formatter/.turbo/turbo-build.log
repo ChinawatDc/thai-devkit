@@ -1,0 +1,18 @@
+
+> @chinawatdc/thai-phone-formatter@1.0.0 build
+> tsup src/index.ts --format cjs,esm --dts --clean
+
+CLI Building entry: src/index.ts
+CLI tsup v8.5.1
+CLI Target: node16
+CLI Cleaning output folder
+CJS Build start
+ESM Build start
+CJS dist/index.js 1.59 KB
+CJS ⚡️ Build success in 163ms
+ESM dist/index.mjs 581.00 B
+ESM ⚡️ Build success in 165ms
+DTS Build start
+DTS ⚡️ Build success in 3802ms
+DTS dist/index.d.ts  163.00 B
+DTS dist/index.d.mts 163.00 B

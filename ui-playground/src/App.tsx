@@ -8,7 +8,7 @@ import { validateEnv, types } from '@chinawatdc/env-type-checker'
 import { ThaiBahtText } from '@chinawatdc/thai-baht-text-esm'
 import { parseLLMOutput } from '@chinawatdc/unified-llm-parser'
 import { PromptManager } from '@chinawatdc/ai-prompt-manager'
-import { suggestProvince } from '@chinawatdc/thai-address-suggest'
+import { suggestProvince, searchAddress, searchByZipcode } from '@chinawatdc/thai-address-suggest'
 import { cleanThaiText, isThai } from '@chinawatdc/thai-nlp-utils'
 import { tinyFetch } from '@chinawatdc/tiny-fetch-wrapper'
 
@@ -131,15 +131,42 @@ function EnvTypeChecker() {
 }
 
 function UnifiedLlmParser() {
-  const [llmInput, setLlmInput] = useState('Here is the JSON:\n```json\n{"name": "test", "value": 42}\n```')
+  const [llmInput, setLlmInput] = useState('Here is the data:\n```json\n{\n  "name": "Chinawat",\n  "skills": ["React", "TypeScript",\n```\n(AI stopped generating here...)')
+  
   let llmResult = null;
-  try { llmResult = parseLLMOutput(llmInput) } catch (e: any) { llmResult = { error: e.message } }
+  let errorMsg = '';
+  try { 
+    llmResult = parseLLMOutput(llmInput) 
+  } catch (e: any) { 
+    errorMsg = e.message 
+  }
 
   return (
     <div className="bg-white p-8 rounded-xl shadow-lg w-full max-w-4xl mx-auto">
-      <h2 className="text-2xl font-semibold mb-4">unified-llm-parser</h2>
-      <textarea className="border p-2 w-full h-32 rounded mb-2 font-mono" value={llmInput} onChange={e => setLlmInput(e.target.value)} />
-      <pre className="bg-gray-800 text-gray-100 p-4 rounded-lg overflow-auto">{JSON.stringify(llmResult, null, 2)}</pre>
+      <h2 className="text-2xl font-semibold mb-2">unified-llm-parser <span className="text-sm bg-purple-100 text-purple-700 px-2 py-1 rounded">Auto-Healing</span></h2>
+      <p className="text-sm text-gray-500 mb-4">ลองป้อน JSON แบบพังๆ (ลืมปิดวงเล็บ, มี markdown ติดมา, ลูกน้ำเกิน) ดูครับ ระบบจะซ่อมให้เอง!</p>
+      
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label className="block text-sm font-bold text-gray-700 mb-1">AI Output (Broken JSON)</label>
+          <textarea 
+            className="border-2 border-gray-300 focus:border-blue-500 outline-none p-3 w-full h-48 rounded-lg font-mono text-sm shadow-sm" 
+            value={llmInput} 
+            onChange={e => setLlmInput(e.target.value)} 
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-bold text-gray-700 mb-1">Parsed & Healed Result</label>
+          <div className="bg-gray-900 text-green-400 p-4 rounded-lg overflow-auto h-48 font-mono text-sm shadow-inner relative">
+            {llmResult ? (
+              <pre>{JSON.stringify(llmResult, null, 2)}</pre>
+            ) : (
+              <div className="text-red-400 whitespace-pre-wrap">{errorMsg}</div>
+            )}
+            {llmResult && <div className="absolute top-2 right-2 text-xs bg-green-900 text-green-300 px-2 py-1 rounded opacity-70">Valid JSON</div>}
+          </div>
+        </div>
+      </div>
     </div>
   )
 }
@@ -166,17 +193,71 @@ function AiPromptManager() {
   )
 }
 
+
+
 function ThaiAddressSuggest() {
   const [keyword, setKeyword] = useState('')
-  const suggestions = suggestProvince(keyword)
+  const [selected, setSelected] = useState<any>(null)
+  
+  const suggestions = searchAddress(keyword)
+
+  const handleSelect = (item: any) => {
+    setSelected(item)
+    setKeyword('') // clear input after selection
+  }
 
   return (
     <div className="bg-white p-8 rounded-xl shadow-lg w-full max-w-2xl mx-auto">
-      <h2 className="text-2xl font-semibold mb-4">thai-address-suggest</h2>
-      <input className="border p-2 w-full rounded mb-2" value={keyword} onChange={e => setKeyword(e.target.value)} placeholder="พิมพ์ ก หรือ ข..." />
-      <ul className="border rounded-lg overflow-hidden bg-gray-50">
-        {suggestions.map((prov, i) => <li key={i} className="p-2 border-b last:border-b-0">{prov}</li>)}
-      </ul>
+      <h2 className="text-2xl font-semibold mb-2">thai-address-suggest <span className="text-sm bg-purple-100 text-purple-700 px-2 py-1 rounded">Ultimate</span></h2>
+      <p className="text-sm text-gray-500 mb-4">ลองพิมพ์ "10110", "10250", "คลองเตย" หรือ "เชียงใหม่"</p>
+      
+      {/* Checkout Form Simulation */}
+      <div className="grid grid-cols-2 gap-4 mb-4">
+        <div>
+          <label className="block text-xs font-bold text-gray-500 uppercase">ตำบล / แขวง (District)</label>
+          <input readOnly className="border p-2 w-full rounded bg-gray-50" value={selected?.district || ''} placeholder="-" />
+        </div>
+        <div>
+          <label className="block text-xs font-bold text-gray-500 uppercase">อำเภอ / เขต (Amphoe)</label>
+          <input readOnly className="border p-2 w-full rounded bg-gray-50" value={selected?.amphoe || ''} placeholder="-" />
+        </div>
+        <div>
+          <label className="block text-xs font-bold text-gray-500 uppercase">จังหวัด (Province)</label>
+          <input readOnly className="border p-2 w-full rounded bg-gray-50" value={selected?.province || ''} placeholder="-" />
+        </div>
+        <div>
+          <label className="block text-xs font-bold text-gray-500 uppercase">รหัสไปรษณีย์ (Zipcode)</label>
+          <input readOnly className="border p-2 w-full rounded bg-gray-50 font-bold text-blue-600" value={selected?.zipcode || ''} placeholder="-" />
+        </div>
+      </div>
+
+      <div className="relative">
+        <input 
+          className="border-2 border-blue-400 focus:border-blue-600 outline-none p-3 w-full rounded-lg shadow-sm" 
+          value={keyword} 
+          onChange={e => setKeyword(e.target.value)} 
+          placeholder="🔍 ค้นหาที่อยู่ หรือ รหัสไปรษณีย์..." 
+        />
+        {keyword && suggestions.length > 0 && (
+          <ul className="absolute z-10 w-full mt-1 border rounded-lg shadow-xl bg-white max-h-48 overflow-y-auto">
+            {suggestions.map((item, i) => (
+              <li 
+                key={i} 
+                onClick={() => handleSelect(item)}
+                className="p-3 border-b last:border-b-0 hover:bg-blue-50 cursor-pointer flex justify-between items-center"
+              >
+                <span>ต.{item.district} อ.{item.amphoe} จ.{item.province}</span>
+                <span className="font-bold text-blue-600">{item.zipcode}</span>
+              </li>
+            ))}
+          </ul>
+        )}
+        {keyword && suggestions.length === 0 && (
+          <div className="absolute z-10 w-full mt-1 border rounded-lg shadow-xl bg-white p-3 text-gray-500 text-center">
+            ไม่พบข้อมูล (ระบบ Demo มีข้อมูลเฉพาะบางพื้นที่)
+          </div>
+        )}
+      </div>
     </div>
   )
 }

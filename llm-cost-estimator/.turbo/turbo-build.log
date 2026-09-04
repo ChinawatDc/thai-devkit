@@ -1,0 +1,18 @@
+
+> @chinawatdc/llm-cost-estimator@1.0.0 build
+> tsup src/index.ts --format cjs,esm --dts --clean
+
+CLI Building entry: src/index.ts
+CLI tsup v8.5.1
+CLI Target: node16
+CLI Cleaning output folder
+CJS Build start
+ESM Build start
+ESM dist/index.mjs 573.00 B
+ESM ⚡️ Build success in 152ms
+CJS dist/index.js 1.54 KB
+CJS ⚡️ Build success in 152ms
+DTS Build start
+DTS ⚡️ Build success in 3633ms
+DTS dist/index.d.ts  154.00 B
+DTS dist/index.d.mts 154.00 B

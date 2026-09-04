@@ -1,0 +1,4 @@
+
+> @chinawatdc/tiny-fetch-wrapper@1.0.0 build
+> tsup src/index.ts --format cjs,esm --dts --clean
+

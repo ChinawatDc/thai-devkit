@@ -1,0 +1,4 @@
+
+> @chinawatdc/create-custom-stack@1.0.1 build
+> tsup src/index.ts --format cjs,esm --dts --clean
+

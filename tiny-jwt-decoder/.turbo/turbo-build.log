@@ -1,0 +1,18 @@
+
+> @chinawatdc/tiny-jwt-decoder@1.0.0 build
+> tsup src/index.ts --format cjs,esm --dts --clean
+
+CLI Building entry: src/index.ts
+CLI tsup v8.5.1
+CLI Target: node16
+CLI Cleaning output folder
+CJS Build start
+ESM Build start
+ESM dist/index.mjs 417.00 B
+ESM ⚡️ Build success in 156ms
+CJS dist/index.js 1.38 KB
+CJS ⚡️ Build success in 162ms
+DTS Build start
+DTS ⚡️ Build success in 4007ms
+DTS dist/index.d.ts  85.00 B
+DTS dist/index.d.mts 85.00 B

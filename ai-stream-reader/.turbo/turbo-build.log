@@ -1,0 +1,18 @@
+
+> @chinawatdc/ai-stream-reader@1.0.0 build
+> tsup src/index.ts --format cjs,esm --dts --clean
+
+CLI Building entry: src/index.ts
+CLI tsup v8.5.1
+CLI Target: node16
+CLI Cleaning output folder
+CJS Build start
+ESM Build start
+ESM dist/index.mjs 646.00 B
+ESM ⚡️ Build success in 118ms
+CJS dist/index.js 1.61 KB
+CJS ⚡️ Build success in 118ms
+DTS Build start
+DTS ⚡️ Build success in 4034ms
+DTS dist/index.d.ts  118.00 B
+DTS dist/index.d.mts 118.00 B
